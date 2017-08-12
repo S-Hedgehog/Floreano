@@ -1,10 +1,13 @@
 # -*- coding: utf-8 -*-
 """
-This file contains the setup of the neuronal network running the Husky experiment with neuronal image recognition
+This file contains the setup of the neuronal network running the Floreano experiment with neuronal image recognition
 """
 # pragma: no cover
 
-__author__ = 'Lazar Mateev, Georg Hinkel'
+__author__ = 'Stefan Walke'
+"""
+At the moment this contains only the Braitenberg Experiment. WIP Adaption to Floreanor Experiment
+"""
 
 from hbp_nrp_cle.brainsim import simulator as sim
 import numpy as np
@@ -17,15 +20,15 @@ def create_brain():
     """
     Initializes PyNN with the neuronal network that has to be simulated
     """
-    SENSORPARAMS = {'v_rest': -60.5,
+    NEURONPARAMS = {'v_rest': -60.5,
                     'cm': 0.025,
-                    'tau_m': 10.,
+                    'tau_m': 4.,
                     'tau_refrac': 10.0,
                     'tau_syn_E': 2.5,
                     'tau_syn_I': 2.5,
                     'e_rev_E': 0.0,
                     'e_rev_I': -75.0,
-                    'v_thresh': -60.0,
+                    'v_thresh': -60.4,
                     'v_reset': -60.5}
 
     GO_ON_PARAMS = {'v_rest': -60.5,
