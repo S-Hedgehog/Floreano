@@ -11,7 +11,7 @@
     <environmentModel src="floreano_box/blackwhite.sdf">
         <robotPose x="0.0" y="0.0" z="0.5" ux="0.0" uy="0.0" uz="0.0" theta="0.0"/>
     </environmentModel>
-    <bibiConf src="template_husky.bibi"/>
+    <bibiConf src="testing.bibi"/>
     <cameraPose>
         <cameraPosition x="5.5" y="-1.0" z="5.5"/>
         <cameraLookAt x="0" y="0" z="0.6"/>
