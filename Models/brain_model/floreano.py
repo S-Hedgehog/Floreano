@@ -82,7 +82,7 @@ def create_brain():
                    postsynaptic_population=CIRCUIT[28:32],
                    connector=sim.AllToAllConnector(allow_self_connections=False),
                    synapse_type=SYN,
-                   receptor_type='exitatory')
+                   receptor_type='excitatory')
 
     sim.initialize(population, v=population.get('v_rest'))
 
