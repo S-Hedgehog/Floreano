@@ -4,13 +4,13 @@
     <file>brain_model/floreano.py</file>
     <populations population="sensors" xsi:type="Range" from="0" to="18"/>
     <populations population="brain" xsi:type="Range" from="18" to="28"/>
-    <populations population="actors" xsi:type="Range" from="28" to="32"/>
-    <populations population="record" xsi:type="Range" from="0" to="32"/>
+    <populations population="actors" xsi:type="Range" from="24" to="28"/>
+    <populations population="record" xsi:type="Range" from="0" to="28"/>
   </brainModel>
   <bodyModel>husky_model/model.sdf</bodyModel>
   <transferFunction xsi:type="Neuron2Monitor" name="all_neurons_spike_monitor">
     <device name="all_neurons" type="SpikeRecorder">
-      <neurons xsi:type="Range" population="record" from="0" to="32" step="1"/>
+      <neurons xsi:type="Range" population="record" from="0" to="28" step="1"/>
     </device>
   </transferFunction>
   <transferFunction xsi:type="PythonTransferFunction" src="husky_linear_twist.py"/>
