@@ -12,7 +12,7 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-l = np.zeros([10,33]) 
+l = np.random.randint(2,size=(10,29))
 """
 Structure of the dna array: 
 -Binary values
@@ -64,18 +64,22 @@ def create_brain(dna = l):
 
     SYN = sim.TsodyksMarkramSynapse(**SYNAPSE_PARAMS)
 
-    sim.Projection(presynaptic_population=CIRCUIT[0:18],
-                   postsynaptic_population=CIRCUIT[18:28],
-                   connector=sim.AllToAllConnector(allow_self_connections=False),
-                   synapse_type=SYN,
-                   receptor_type='excitatory')
-
-    sim.Projection(presynaptic_population=CIRCUIT[18:28],
-                   postsynaptic_population=CIRCUIT[18:28],
-                   connector=sim.AllToAllConnector(allow_self_connections=True),
-                   synapse_type=SYN,
-                   receptor_type='excitatory')
-
+    row_counter=0
+    for row in dna:
+    	logger.info(row)
+        n = np.array(row)
+        r_type = 'excitatory'
+        for i in range(1,19):
+            if n[i]==1:
+            	logger.info(str(i-1)+' '+str(18+row_counter)+' '+r_type)
+                sim.Projection(presynaptic_population=CIRCUIT[i-1:i], postsynaptic_population=CIRCUIT[18+row_counter:19+row_counter], connector=sim.OneToOneConnector(), synapse_type=SYN, receptor_type=r_type)
+        if n[0]==0:
+            r_type = 'inhibitory'
+        for i in range(19,29):
+            if n[i]==1:
+            	logger.info(str(18+row_counter)+' '+str(i-1)+' '+r_type)
+                sim.Projection(presynaptic_population=CIRCUIT[18+row_counter:19+row_counter], postsynaptic_population=CIRCUIT[i-1:i], connector=sim.OneToOneConnector(), synapse_type=SYN, receptor_type=r_type)
+        row_counter+=1
 
     sim.initialize(population, v=population.get('v_rest'))
 
@@ -85,4 +89,3 @@ def create_brain(dna = l):
 
 
 circuit = create_brain()
-
