@@ -4,14 +4,14 @@
      xsi:schemaLocation="http://schemas.humanbrainproject.eu/SP10/2014/ExDConfig ../ExDConfFile.xsd">
     <name>Floreano Experiment </name>
     <thumbnail>floreano.png</thumbnail>
-    <description>This experiment loads the Husky robot in an empty world, with an idle brain and basic transfer functions. You are free to edit it.</description>
-    <timeout>840</timeout>
+    <description>This experiment loads the Husky robot in an box with marked walls. With the marks on the wall the robot is able to navigate/drive around inside the box, without colliding with the wall.</description>
+    <timeout>3600</timeout>
     <configuration type="3d-settings" src="ExDTemplateHusky.3ds"/>
     <maturity>production</maturity>
     <environmentModel src="floreano_box/blackwhite.sdf">
         <robotPose x="0.0" y="0.0" z="0.5" ux="0.0" uy="0.0" uz="0.0" theta="0.0"/>
     </environmentModel>
-    <bibiConf src="testing.bibi"/>
+    <bibiConf src="floreano.bibi"/>
     <cameraPose>
         <cameraPosition x="5.5" y="-1.0" z="5.5"/>
         <cameraLookAt x="0" y="0" z="0.6"/>
