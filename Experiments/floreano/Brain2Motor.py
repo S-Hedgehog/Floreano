@@ -24,8 +24,8 @@ def Brain2Motor(t, left_wheel_forward_neuron, left_wheel_back_neuron, right_whee
     """
     left_wheel = left_wheel_forward_neuron.voltage - left_wheel_back_neuron.voltage
     right_wheel = right_wheel_forward_neuron.voltage - right_wheel_back_neuron.voltage
-    linear=geometry_msgs.msg.Vector3(x=10.0 * min(left_wheel, right_wheel), y=0.0, z=0.0)
-    angular=geometry_msgs.msg.Vector3(x=0.0, y=0.0, z=100.0 * (right_wheel - left_wheel))
-    clientLogger.info(left_wheel_forward_neuron.voltage)
-    clientLogger.info(left_wheel_back_neuron.voltage)
+
+    clientLogger.info(left_wheel, right_wheel)
+    linear=geometry_msgs.msg.Vector3(x=5000.0 * min(left_wheel, right_wheel), y=0.0, z=0.0)
+    angular=geometry_msgs.msg.Vector3(x=0.0, y=0.0, z=500.0 * (right_wheel - left_wheel))
     return geometry_msgs.msg.Twist(linear, angular)
