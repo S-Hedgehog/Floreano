@@ -2,6 +2,7 @@ floreano_box
 empty_world
 hosta_potted_plant
 husky_model
+husky_model_64px
 lamp_models/vr_lamp
 lamp_models/future_lamp
 lauron_model
