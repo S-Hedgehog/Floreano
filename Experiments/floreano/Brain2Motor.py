@@ -22,10 +22,12 @@ def Brain2Motor(t, left_wheel_forward_neuron, left_wheel_back_neuron, right_whee
     :param right_wheel_back_neuron: the right wheel back neuron device
     :return: a geometry_msgs/Twist message setting the linear twist fo the husky robot movement.
     """
-    left_wheel = left_wheel_forward_neuron.voltage - left_wheel_back_neuron.voltage
-    right_wheel = right_wheel_forward_neuron.voltage - right_wheel_back_neuron.voltage
+    left_wheel = 1000*(left_wheel_forward_neuron.voltage - left_wheel_back_neuron.voltage)
+    right_wheel = 1000*(right_wheel_forward_neuron.voltage - right_wheel_back_neuron.voltage)
 
-    clientLogger.info(left_wheel, right_wheel)
-    linear=geometry_msgs.msg.Vector3(x=5000.0 * min(left_wheel, right_wheel), y=0.0, z=0.0)
-    angular=geometry_msgs.msg.Vector3(x=0.0, y=0.0, z=500.0 * (right_wheel - left_wheel))
+    linear=geometry_msgs.msg.Vector3(x=-1.0 * min(left_wheel, right_wheel), y=0.0, z=0.0)
+    angular=geometry_msgs.msg.Vector3(x=0.0, y=0.0, z=2.0 * (right_wheel - left_wheel))
+
+    clientLogger.info(linear.x, angular.z)
+
     return geometry_msgs.msg.Twist(linear, angular)

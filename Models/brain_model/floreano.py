@@ -78,7 +78,19 @@ def create_brain(dna = l):
         for i in range(19,29):
             if n[i]==1:
             	logger.info(str(18+row_counter)+' '+str(i-1)+' '+r_type)
-                sim.Projection(presynaptic_population=CIRCUIT[18+row_counter:19+row_counter], postsynaptic_population=CIRCUIT[i-1:i], connector=sim.OneToOneConnector(), synapse_type=SYN, receptor_type=r_type)
+
+                temp = 2*np.random.random()
+
+                SYNAPSE_PARAMS_2 = {"weight": temp,
+                      "delay": 2.0,
+                      'U': 1.0,
+                      'tau_rec': 1.0,
+                      'tau_facil': 1.0}
+
+                SYN2 = sim.TsodyksMarkramSynapse(**SYNAPSE_PARAMS_2)
+                
+                sim.Projection(presynaptic_population=CIRCUIT[18+row_counter:19+row_counter], postsynaptic_population=CIRCUIT[i-1:i], connector=sim.OneToOneConnector(), synapse_type=SYN2, receptor_type=r_type)
+        
         row_counter+=1
 
     sim.initialize(population, v=population.get('v_rest'))
