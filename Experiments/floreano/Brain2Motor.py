@@ -28,6 +28,7 @@ def Brain2Motor(t, left_wheel_forward_neuron, left_wheel_back_neuron, right_whee
     linear=geometry_msgs.msg.Vector3(x=-1.0 * min(left_wheel, right_wheel), y=0.0, z=0.0)
     angular=geometry_msgs.msg.Vector3(x=0.0, y=0.0, z=2.0 * (right_wheel - left_wheel))
 
-    clientLogger.info(linear.x, angular.z)
+    if ((int(10*t))%10) == 0:
+        clientLogger.info('Speeds:',linear.x, angular.z)
 
     return geometry_msgs.msg.Twist(linear, angular)

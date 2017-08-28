@@ -18,9 +18,14 @@ import cv2
 @nrp.MapSpikeSource("pixel13", nrp.brain.sensors[13], nrp.poisson)
 @nrp.MapSpikeSource("pixel14", nrp.brain.sensors[14], nrp.poisson)
 @nrp.MapSpikeSource("pixel15", nrp.brain.sensors[15], nrp.poisson)
+@nrp.MapSpikeSource("lastpos", nrp.brain.sensors[16], nrp.poisson)
+@nrp.MapSpikeSource("currentpos", nrp.brain.sensors[17], nrp.poisson)
+
+@nrp.MapRobotSubscriber("position", Topic('/gazebo/model_states', gazebo_msgs.msg.ModelStates))
+@nrp.MapVariable("last_position", initial_value=[0,0,0])
 @nrp.Robot2Neuron()
 
-def Sensor2Brain(t, camera, pixel0, pixel1, pixel2, pixel3, pixel4, pixel5, pixel6, pixel7, pixel8, pixel9, pixel10, pixel11, pixel12, pixel13, pixel14, pixel15):
+def Sensor2Brain(t, position, last_position, camera, pixel0, pixel1, pixel2, pixel3, pixel4, pixel5, pixel6, pixel7, pixel8, pixel9, pixel10, pixel11, pixel12, pixel13, pixel14, pixel15, lastpos, currentpos):
     """
     This transfer function uses OpenCV to compute the grayscale values of the camera pixels. Then, it maps these values
     to the neural network's first 16 sensory neurons using a Poisson generator.
@@ -42,3 +47,13 @@ def Sensor2Brain(t, camera, pixel0, pixel1, pixel2, pixel3, pixel4, pixel5, pixe
         # Set the fireing rate of the neurons proportional according to the pixel it is associated to.
         for n in range(16):
             neurons.item(n).rate = 1000 * mask16[n]
+
+    current_position = [position.value.pose[-1].position.x, position.value.pose[-1].position.y, position.value.pose[-1].position.z]
+
+    if ((int(10*t))%10) == 0:
+        clientLogger.info('Positions:',last_position.value[0], current_position[0])
+
+    lastpos.rate = np.absolute(10 * (last_position.value[0]+last_position.value[1]+last_position.value[2]))
+    currentpos.rate = np.absolute(10 * (current_position[0]+current_position[1]+current_position[2]))
+
+    last_position.value = current_position
