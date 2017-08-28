@@ -6,10 +6,10 @@ component of the husky's movement based on the left and right wheel neuron
 import hbp_nrp_cle.tf_framework as nrp
 from hbp_nrp_cle.robotsim.RobotInterface import Topic
 import geometry_msgs.msg
-@nrp.MapSpikeSink("left_wheel_forward_neuron", nrp.brain.actors[0], nrp.leaky_integrator_alpha)
-@nrp.MapSpikeSink("left_wheel_back_neuron", nrp.brain.actors[1], nrp.leaky_integrator_alpha)
-@nrp.MapSpikeSink("right_wheel_forward_neuron", nrp.brain.actors[2], nrp.leaky_integrator_alpha)
-@nrp.MapSpikeSink("right_wheel_back_neuron", nrp.brain.actors[3], nrp.leaky_integrator_alpha)
+@nrp.MapSpikeSink("left_wheel_forward_neuron", nrp.brain.actors[0], nrp.population_rate)
+@nrp.MapSpikeSink("left_wheel_back_neuron", nrp.brain.actors[1], nrp.population_rate)
+@nrp.MapSpikeSink("right_wheel_forward_neuron", nrp.brain.actors[2], nrp.population_rate)
+@nrp.MapSpikeSink("right_wheel_back_neuron", nrp.brain.actors[3], nrp.population_rate)
 @nrp.Neuron2Robot(Topic('/husky/cmd_vel', geometry_msgs.msg.Twist))
 def Brain2Motor(t, left_wheel_forward_neuron, left_wheel_back_neuron, right_wheel_forward_neuron, right_wheel_back_neuron):
     """
@@ -22,10 +22,9 @@ def Brain2Motor(t, left_wheel_forward_neuron, left_wheel_back_neuron, right_whee
     :param right_wheel_back_neuron: the right wheel back neuron device
     :return: a geometry_msgs/Twist message setting the linear twist fo the husky robot movement.
     """
-    left_wheel = left_wheel_forward_neuron.voltage - left_wheel_back_neuron.voltage
-    right_wheel = right_wheel_forward_neuron.voltage - right_wheel_back_neuron.voltage
-
+    left_wheel = 0.08 * (left_wheel_forward_neuron.rate - left_wheel_back_neuron.rate)
+    right_wheel = 0.08 * (right_wheel_forward_neuron.rate - right_wheel_back_neuron.rate)
     clientLogger.info(left_wheel, right_wheel)
-    linear=geometry_msgs.msg.Vector3(x=5000.0 * min(left_wheel, right_wheel), y=0.0, z=0.0)
-    angular=geometry_msgs.msg.Vector3(x=0.0, y=0.0, z=500.0 * (right_wheel - left_wheel))
+    linear=geometry_msgs.msg.Vector3(x=(left_wheel + right_wheel)/2.0, y=0.0, z=0.0)
+    angular=geometry_msgs.msg.Vector3(x=0.0, y=0.0, z=(right_wheel - left_wheel)/0.5709)
     return geometry_msgs.msg.Twist(linear, angular)
