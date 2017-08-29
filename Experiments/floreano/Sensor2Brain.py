@@ -18,14 +18,15 @@ import cv2
 @nrp.MapSpikeSource("pixel13", nrp.brain.sensors[13], nrp.poisson)
 @nrp.MapSpikeSource("pixel14", nrp.brain.sensors[14], nrp.poisson)
 @nrp.MapSpikeSource("pixel15", nrp.brain.sensors[15], nrp.poisson)
-@nrp.MapSpikeSource("lastpos", nrp.brain.sensors[16], nrp.poisson)
-@nrp.MapSpikeSource("currentpos", nrp.brain.sensors[17], nrp.poisson)
+@nrp.MapSpikeSource("left_wheel_speed_error", nrp.brain.sensors[16], nrp.poisson)
+@nrp.MapSpikeSource("right_wheel_speed_error", nrp.brain.sensors[17], nrp.poisson)
 
-@nrp.MapRobotSubscriber("position", Topic('/gazebo/model_states', gazebo_msgs.msg.ModelStates))
-@nrp.MapVariable("last_position", initial_value=[0,0,0])
+@nrp.MapVariable("ideal_wheel_speed", global_key="ideal_wheel_speed", initial_value=[0.0,0.0], scope=nrp.GLOBAL)
+@nrp.MapVariable("real_wheel_speed", global_key="real_wheel_speed", initial_value=[0.0,0.0], scope=nrp.GLOBAL)
+
 @nrp.Robot2Neuron()
 
-def Sensor2Brain(t, position, last_position, camera, pixel0, pixel1, pixel2, pixel3, pixel4, pixel5, pixel6, pixel7, pixel8, pixel9, pixel10, pixel11, pixel12, pixel13, pixel14, pixel15, lastpos, currentpos):
+def Sensor2Brain(t, ideal_wheel_speed, real_wheel_speed, left_wheel_speed_error, right_wheel_speed_error,camera, pixel0, pixel1, pixel2, pixel3, pixel4, pixel5, pixel6, pixel7, pixel8, pixel9, pixel10, pixel11, pixel12, pixel13, pixel14, pixel15):
     """
     This transfer function uses OpenCV to compute the grayscale values of the camera pixels. Then, it maps these values
     to the neural network's first 16 sensory neurons using a Poisson generator.
@@ -48,12 +49,7 @@ def Sensor2Brain(t, position, last_position, camera, pixel0, pixel1, pixel2, pix
         for n in range(16):
             neurons.item(n).rate = 1000 * mask16[n]
 
-    current_position = [position.value.pose[-1].position.x, position.value.pose[-1].position.y, position.value.pose[-1].position.z]
-
-    if ((int(10*t))%10) == 0:
-        clientLogger.info('Positions:',last_position.value[0], current_position[0])
-
-    lastpos.rate = np.absolute(10 * (last_position.value[0]+last_position.value[1]+last_position.value[2]))
-    currentpos.rate = np.absolute(10 * (current_position[0]+current_position[1]+current_position[2]))
-
-    last_position.value = current_position
+    iws = ideal_wheel_speed.value
+    rws = real_wheel_speed.value
+    left_wheel_speed_error.rate = np.absolute(5000*iws[0]-rws[0])
+    right_wheel_speed_error.rate = np.absolute(5000*iws[1]-rws[1])
