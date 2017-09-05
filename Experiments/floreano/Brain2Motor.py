@@ -1,4 +1,3 @@
-
 # Imported Python Transfer Function
 """
 This module contains the transfer function which is responsible for determining the linear twist

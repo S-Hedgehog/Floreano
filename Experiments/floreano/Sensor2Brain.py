@@ -40,14 +40,10 @@ def Sensor2Brain(t, ideal_wheel_speed, real_wheel_speed, left_wheel_speed_error,
         (thresh, im_bw) = cv2.threshold(bridge.imgmsg_to_cv2(camera.value, "mono8"), 128, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
 
         # Fold the image to get a 1x16 binary array mask16, where 0 denotes black and 1 denotes white areas.
-        mask16 = np.zeros(16)
-        for i in range(16):
-            if (im_bw.item(i) + im_bw.item(i+1) + im_bw.item(i+2) + im_bw.item(i+3)) > 610:
-                mask16.itemset(i,1)
-
-        # Set the fireing rate of the neurons proportional according to the pixel it is associated to.
         for n in range(16):
-            neurons.item(n).rate = 1000 * mask16[n]
+            r = (im_bw.item(n)/6.0) + (im_bw.item(n+1)/3.0) + (im_bw.item(n+2)/3.0) + (im_bw.item(n+3)/6.0)
+            neurons.item(n).rate = r
+
 
     iws = ideal_wheel_speed.value
     rws = real_wheel_speed.value
