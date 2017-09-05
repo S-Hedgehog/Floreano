@@ -5,7 +5,7 @@ component of the husky's movement based on the left and right wheel neuron
 """
 import hbp_nrp_cle.tf_framework as nrp
 from hbp_nrp_cle.robotsim.RobotInterface import Topic
-import geometry_msgs.msg
+import gazebo_msgs.msg
 
 @nrp.MapSpikeSink("left_wheel_forward_neuron", nrp.brain.actors[0], nrp.population_rate)
 @nrp.MapSpikeSink("left_wheel_back_neuron", nrp.brain.actors[1], nrp.population_rate)
@@ -14,7 +14,7 @@ import geometry_msgs.msg
 
 @nrp.MapVariable("ideal_wheel_speed", global_key="ideal_wheel_speed", initial_value=[0.0,0.0], scope=nrp.GLOBAL)
 
-@nrp.Neuron2Robot(Topic('/husky/cmd_vel', geometry_msgs.msg.Twist))
+@nrp.Neuron2Robot(Topic('/husky/wheel_speeds', gazebo_msgs.msg.WheelSpeeds))
 def Brain2Motor(t, ideal_wheel_speed, left_wheel_forward_neuron, left_wheel_back_neuron, right_wheel_forward_neuron, right_wheel_back_neuron):
     """
     The transfer function which calculates the linear twist of the husky robot based on the
@@ -26,12 +26,15 @@ def Brain2Motor(t, ideal_wheel_speed, left_wheel_forward_neuron, left_wheel_back
     :param right_wheel_back_neuron: the right wheel back neuron device
     :return: a geometry_msgs/Twist message setting the linear twist fo the husky robot movement.
     """
-    left_wheel = 0.8 * (left_wheel_forward_neuron.rate - left_wheel_back_neuron.rate)
-    right_wheel = 0.8 * (right_wheel_forward_neuron.rate - right_wheel_back_neuron.rate)
+    left_wheel = 10.0*(left_wheel_forward_neuron.rate - left_wheel_back_neuron.rate)
+    right_wheel = 10.0*(right_wheel_forward_neuron.rate - right_wheel_back_neuron.rate)
+    clientLogger.info(left_wheel,right_wheel)
 
-    linear = np.absolute(left_wheel + right_wheel)
-    angular = 1.5*(right_wheel - left_wheel)/0.5709
+    #linear = np.absolute(left_wheel + right_wheel)
+    #angular = 2.0*(right_wheel - left_wheel)/0.5709
 
-    ideal_wheel_speed.value = [(linear - angular * (0.55) / 2.0),(linear + angular * (0.55) / 2.0)]
+    #ideal_wheel_speed.value = [(linear - angular * (0.55) / 2.0),(linear + angular * (0.55) / 2.0)]
+    ideal_wheel_speed.value = [left_wheel, right_wheel]
 
-    return geometry_msgs.msg.Twist(geometry_msgs.msg.Vector3(x=linear, y=0.0, z=0.0), geometry_msgs.msg.Vector3(x=0.0, y=0.0, z=angular))
+
+    return gazebo_msgs.msg.WheelSpeeds(left_wheel, right_wheel, left_wheel, right_wheel)

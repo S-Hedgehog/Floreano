@@ -5,6 +5,7 @@ husky_model
 husky_model_64px
 lamp_models/vr_lamp
 lamp_models/future_lamp
+lamp_models/top_lamp
 lauron_model
 library_model
 poster_models/viz_poster
@@ -16,7 +17,6 @@ vr_screen
 spacebotcup_world
 icub_model
 nao_model
-mouse_sled
 mouse_v1_model
 mouse_v2_model
 mouse_ymaze_world
@@ -30,6 +30,40 @@ TUM_Head
 nrp_panel
 spacebotcup_world_labyrinth
 walls/concretewall1/
+walls/concretewallhigh/
+walls/metallicwallangle/
+walls/metallicwallanglehigh/
+walls/woodwall/
+walls/whitepanelwall/
+building/windows/squarewindow/
+building/windows/highwindow/
+building/windows/topwindow/
+building/windows/bigtopwindow/
+building/beams/topmetalbeam
+building/doors/glassdoor
+building/pylons/highpylon
+building/pylons/concretepylon
+building/ground/groundmetalgrid
+building/ground/robotplayground
 nature/ground/mars_ground_model
+nature/ground/grasshill
 street/ground/large_concrete_ground
+<<<<<<< Updated upstream
+fournitures/bench
+fournitures/sofa
+fournitures/woodtable
+fournitures/officechair
+fournitures/computer
+roboy
+cdp1_world
+cdp1_mouse_w_sled
+cdp1_msled
+building/rampsandstairs/ramp
+building/rampsandstairs/stairs
+building/ground/bumpysoil
+building/blocks/concreteblock
+fournitures/pingpongtable/
+fournitures/pingpongtrainerbot/
+=======
 
+>>>>>>> Stashed changes
