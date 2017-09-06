@@ -24,14 +24,11 @@ def Brain2Motor(t, ideal_wheel_speed, left_wheel_forward_neuron, left_wheel_back
     :param left_wheel_back_neuron: the left wheel back neuron device
     :param right_wheel_forward_neuron: the right wheel forward neuron device
     :param right_wheel_back_neuron: the right wheel back neuron device
-    :return: a geometry_msgs/Twist message setting the linear twist fo the husky robot movement.
+    :return: a gazebo_msgs/WheelSpeeds setting the speeds of the left and right pair of wheels of the husky robot for movement.
     """
-    left_wheel = 0.8 * (left_wheel_forward_neuron.rate - left_wheel_back_neuron.rate)
-    right_wheel = 0.8 * (right_wheel_forward_neuron.rate - right_wheel_back_neuron.rate)
+    left_wheel = 0.002 * (left_wheel_forward_neuron.rate - left_wheel_back_neuron.rate)
+    right_wheel = 0.002 * (right_wheel_forward_neuron.rate - right_wheel_back_neuron.rate)
 
-    linear = np.absolute(left_wheel + right_wheel)
-    angular = 1.5*(right_wheel - left_wheel)/0.5709
-
-    ideal_wheel_speed.value = [(linear - angular * (0.55) / 2.0),(linear + angular * (0.55) / 2.0)]
+    ideal_wheel_speed.value = [left_wheel, right_wheel]
 
     return gazebo_msgs.msg.WheelSpeeds(left_wheel, right_wheel, left_wheel, right_wheel)
