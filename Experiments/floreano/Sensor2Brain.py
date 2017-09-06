@@ -39,7 +39,7 @@ def Sensor2Brain(t, ideal_wheel_speed, real_wheel_speed, left_wheel_speed_error,
         # Get an OpenCV image converted to a 8-bit greyscale image and to a binary black and white image.
         (thresh, im_bw) = cv2.threshold(bridge.imgmsg_to_cv2(camera.value, "mono8"), 128, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
 
-        # Fold the image to get a 1x16 binary array mask16, where 0 denotes black and 1 denotes white areas.
+        # Fold the image to get a 16 values used to set the firing rates. 4 pixels are collapsed into one value with a weighted sum (center pixels have double weights)
         for n in range(16):
             r = (im_bw.item(n)/6.0) + (im_bw.item(n+1)/3.0) + (im_bw.item(n+2)/3.0) + (im_bw.item(n+3)/6.0)
             neurons.item(n).rate = r
@@ -47,5 +47,5 @@ def Sensor2Brain(t, ideal_wheel_speed, real_wheel_speed, left_wheel_speed_error,
 
     iws = ideal_wheel_speed.value
     rws = real_wheel_speed.value
-    left_wheel_speed_error.rate = np.absolute(5000*iws[0]-rws[0])
-    right_wheel_speed_error.rate = np.absolute(5000*iws[1]-rws[1])
+    left_wheel_speed_error.rate = np.absolute(100.0*iws[0]-rws[0])
+    right_wheel_speed_error.rate = np.absolute(100.0*iws[1]-rws[1])
