@@ -27,6 +27,7 @@ user_avatar_basic
 user_avatar_basic_no-collision
 user_avatar_rayman
 TUM_Head
+p3dx
 nrp_panel
 spacebotcup_world_labyrinth
 walls/concretewall1/
