@@ -27,42 +27,40 @@ def create_brain(dna = l):
     Initializes PyNN with the neuronal network that has to be simulated
     """
 
-    SENSORPARAMS = {'v_rest': -60.5,
-                    'cm': 0.025,
+    BRAINPARAMS = {'v_rest': -60.0,
+                    'cm': 4.0,
                     'tau_m': 4.0,
                     'tau_refrac': 2.0,
                     'tau_syn_E': 10.0,
                     'tau_syn_I': 10.0,
                     'e_rev_E': 0.0,
                     'e_rev_I': -75.0,
-                    'v_thresh': -60.4,
-                    'v_reset': -60.5}
+                    'v_thresh': -12.5,
+                    'v_reset': -60.0}
 
-    BRAINPARAMS = {'v_rest': -60.5,
-                    'cm': 0.025,
-                    'tau_m': 4.,
+    SENSORPARAMS = {'v_rest': -60.5,
+                    'cm': 0.6,
+                    'tau_m': 4.0,
                     'tau_refrac': 2.0,
-                    'tau_syn_E': 10,
-                    'tau_syn_I': 10,
+                    'tau_syn_E': 10.0,
+                    'tau_syn_I': 10.0,
                     'e_rev_E': 0.0,
                     'e_rev_I': -75.0,
-                    'v_thresh': -60.4,
+                    'v_thresh': -60.0,
                     'v_reset': -60.5}
 
-    SYNAPSE_PARAMS = {"weight": 1,
-                      "delay": 2.0,
-                      'U': 1.0,
-                      'tau_rec': 1.0,
-                      'tau_facil': 1.0}
+    SYNAPSE_PARAMS = {"weight": 1.0,
+                      "delay": 2.0}
 
     population = sim.Population(28, sim.IF_cond_alpha())
     population[0:18].set(**SENSORPARAMS)
     population[18:28].set(**BRAINPARAMS)
 
+
     # Connect neurons
     CIRCUIT = population
 
-    SYN = sim.TsodyksMarkramSynapse(**SYNAPSE_PARAMS)
+    SYN = sim.StaticSynapse(**SYNAPSE_PARAMS)
 
     row_counter=0
     for row in dna:
@@ -79,17 +77,7 @@ def create_brain(dna = l):
             if n[i]==1:
             	logger.info(str(18+row_counter)+' '+str(i-1)+' '+r_type)
 
-                temp = 2*np.random.random()
-
-                SYNAPSE_PARAMS_2 = {"weight": temp,
-                      "delay": 2.0,
-                      'U': 1.0,
-                      'tau_rec': 1.0,
-                      'tau_facil': 1.0}
-
-                SYN2 = sim.TsodyksMarkramSynapse(**SYNAPSE_PARAMS_2)
-                
-                sim.Projection(presynaptic_population=CIRCUIT[18+row_counter:19+row_counter], postsynaptic_population=CIRCUIT[i-1:i], connector=sim.OneToOneConnector(), synapse_type=SYN2, receptor_type=r_type)
+                sim.Projection(presynaptic_population=CIRCUIT[18+row_counter:19+row_counter], postsynaptic_population=CIRCUIT[i-1:i], connector=sim.OneToOneConnector(), synapse_type=SYN, receptor_type=r_type)
         
         row_counter+=1
 
