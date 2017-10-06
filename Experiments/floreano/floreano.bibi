@@ -3,10 +3,9 @@
   <timestep>100</timestep>
   <brainModel>
 	  <file>brain_model/floreano.py</file>
-	  <populations population="sensors" xsi:type="Range" from="0" to="18"/>
-	  <populations population="brain" xsi:type="Range" from="18" to="28"/>
-	  <populations population="actors" xsi:type="Range" from="24" to="28"/>
-	  <populations population="record" xsi:type="Range" from="0" to="28"/>
+    <populations population="brain" xsi:type="Range" from="0" to="10"/>
+    <populations population="actors" xsi:type="Range" from="6" to="10"/>
+    <populations population="record" xsi:type="Range" from="0" to="10"/>
   </brainModel>
   <bodyModel>husky_model_64px/model.sdf</bodyModel>
   <transferFunction xsi:type="PythonTransferFunction" src="Brain2Motor.py"/>

@@ -27,7 +27,7 @@ def create_brain(dna = l):
     Initializes PyNN with the neuronal network that has to be simulated
     """
 
-    BRAINPARAMS = {'v_rest': -60.0,
+    NEURONPARAMS = {'v_rest': -60.0,
                     'cm': 4.0,
                     'tau_m': 4.0,
                     'tau_refrac': 2.0,
@@ -38,23 +38,11 @@ def create_brain(dna = l):
                     'v_thresh': -12.5,
                     'v_reset': -60.0}
 
-    SENSORPARAMS = {'v_rest': -60.5,
-                    'cm': 0.6,
-                    'tau_m': 4.0,
-                    'tau_refrac': 2.0,
-                    'tau_syn_E': 10.0,
-                    'tau_syn_I': 10.0,
-                    'e_rev_E': 0.0,
-                    'e_rev_I': -75.0,
-                    'v_thresh': -60.0,
-                    'v_reset': -60.5}
-
     SYNAPSE_PARAMS = {"weight": 1.0,
                       "delay": 2.0}
 
-    population = sim.Population(28, sim.IF_cond_alpha())
-    population[0:18].set(**SENSORPARAMS)
-    population[18:28].set(**BRAINPARAMS)
+    population = sim.Population(10, sim.IF_cond_alpha())
+    population[0:10].set(**BRAINPARAMS)
 
 
     # Connect neurons
@@ -67,17 +55,13 @@ def create_brain(dna = l):
     	logger.info(row)
         n = np.array(row)
         r_type = 'excitatory'
-        for i in range(1,19):
-            if n[i]==1:
-            	logger.info(str(i-1)+' '+str(18+row_counter)+' '+r_type)
-                sim.Projection(presynaptic_population=CIRCUIT[i-1:i], postsynaptic_population=CIRCUIT[18+row_counter:19+row_counter], connector=sim.OneToOneConnector(), synapse_type=SYN, receptor_type=r_type)
         if n[0]==0:
             r_type = 'inhibitory'
         for i in range(19,29):
             if n[i]==1:
             	logger.info(str(18+row_counter)+' '+str(i-1)+' '+r_type)
 
-                sim.Projection(presynaptic_population=CIRCUIT[18+row_counter:19+row_counter], postsynaptic_population=CIRCUIT[i-1:i], connector=sim.OneToOneConnector(), synapse_type=SYN, receptor_type=r_type)
+                sim.Projection(presynaptic_population=CIRCUIT[row_counter:1+row_counter], postsynaptic_population=CIRCUIT[i-19:i-18], connector=sim.OneToOneConnector(), synapse_type=SYN, receptor_type=r_type)
         
         row_counter+=1
 
