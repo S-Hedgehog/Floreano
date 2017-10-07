@@ -24,7 +24,7 @@ connectors = np.array(connectors)
 
 @nrp.Robot2Neuron()
 
-def Sensor2Brain(t, ideal_wheel_speed, real_wheel_speed, camera, connectors:
+def Sensor2Brain(t, ideal_wheel_speed, real_wheel_speed, camera, connectors):
 
     connections = np.array(connectors)
     bridge = CvBridge()
