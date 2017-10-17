@@ -42,7 +42,7 @@ def create_brain(dna = l):
                       "delay": 2.0}
 
     population = sim.Population(10, sim.IF_cond_alpha())
-    population[0:10].set(**BRAINPARAMS)
+    population[0:10].set(**NEURONPARAMS)
 
 
     # Connect neurons
