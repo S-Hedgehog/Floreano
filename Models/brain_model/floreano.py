@@ -27,16 +27,16 @@ def create_brain(dna = l):
     Initializes PyNN with the neuronal network that has to be simulated
     """
 
-    NEURONPARAMS = {'v_rest': -60.0,
-                    'cm': 4.0,
+    NEURONPARAMS = {'v_rest': -60.5,
+                    'cm': 0.525,
                     'tau_m': 4.0,
                     'tau_refrac': 2.0,
                     'tau_syn_E': 10.0,
                     'tau_syn_I': 10.0,
                     'e_rev_E': 0.0,
                     'e_rev_I': -75.0,
-                    'v_thresh': -12.5,
-                    'v_reset': -60.0}
+                    'v_thresh': -57.0,
+                    'v_reset': -60.5}
 
     SYNAPSE_PARAMS = {"weight": 1.0,
                       "delay": 2.0}
