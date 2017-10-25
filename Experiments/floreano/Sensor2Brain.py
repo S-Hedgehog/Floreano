@@ -25,5 +25,5 @@ def Sensor2Brain(t, ideal_wheel_speed, real_wheel_speed, camera, neurons):
                     else:
                         r[row_counter] = r[row_counter] + (im_bw.item(n)/6.0) + (im_bw.item(n+1)/3.0) + (im_bw.item(n+2)/3.0) + (im_bw.item(n+3)/6.0)
             row_counter+=1
-    for x in range(10):
-        neurons[x].rate = r[x]           
+        for x in range(10):
+            neurons[x].rate = r[x]
