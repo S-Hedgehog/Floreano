@@ -16,7 +16,6 @@ vr_screen
 spacebotcup_world
 icub_model
 nao_model
-mouse_sled
 mouse_v1_model
 mouse_v2_model
 mouse_ymaze_world
