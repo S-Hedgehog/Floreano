@@ -2,7 +2,6 @@ floreano_box
 empty_world
 hosta_potted_plant
 husky_model
-husky_model_64px
 lamp_models/vr_lamp
 lamp_models/future_lamp
 lamp_models/top_lamp
@@ -17,6 +16,7 @@ vr_screen
 spacebotcup_world
 icub_model
 nao_model
+mouse_sled
 mouse_v1_model
 mouse_v2_model
 mouse_ymaze_world
@@ -49,7 +49,6 @@ building/ground/robotplayground
 nature/ground/mars_ground_model
 nature/ground/grasshill
 street/ground/large_concrete_ground
-<<<<<<< Updated upstream
 fournitures/bench
 fournitures/sofa
 fournitures/woodtable
@@ -65,6 +64,23 @@ building/ground/bumpysoil
 building/blocks/concreteblock
 fournitures/pingpongtable/
 fournitures/pingpongtrainerbot/
-=======
-
->>>>>>> Stashed changes
+codejam_2017_tensorflow_world/
+fournitures/screensupport/
+building/ground/carpetground
+building/ground/graycarpetground
+building/ground/woodcheckerboard
+baxter
+fournitures/metal_library/
+fournitures/books/openglbook
+fournitures/books/tatbook
+fournitures/books/impcppbook
+building/ground/carpetground
+fournitures/biologylabchair
+fournitures/biologylabsink
+fournitures/biologylabdesk
+fournitures/biologylabbottle
+fournitures/trashcan
+fournitures/shelf
+fournitures/mouseymaze
+sky
+libraries
