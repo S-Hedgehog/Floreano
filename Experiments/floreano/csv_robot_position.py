@@ -1,18 +1,25 @@
 @nrp.MapCSVRecorder("recorder", filename="robot_position.csv", headers=["x", "y", "z"])
 @nrp.MapRobotSubscriber("position", Topic('/gazebo/model_states', gazebo_msgs.msg.ModelStates))
-
-@nrp.MapVariable("last_position", initial_value=[0.0, 0.0])
-@nrp.MapVariable("travel_distance", global_key="dist", initial_value=0.0, scope=nrp.GLOBAL)
-
+@nrp.MapVariable("robot_index", global_key="robot_index", initial_value=None)
 @nrp.Robot2Neuron()
-def csv_robot_position(t, last_position, travel_distance, position, recorder):
+def csv_robot_position(t, position, recorder, robot_index):
+    if not isinstance(position.value, type(None)):
 
-	pos_x = position.value.pose[-1].position.x
-	pos_y = position.value.pose[-1].position.y
-	pos_z = position.value.pose[-1].position.z
-	last = last_position.value
-	recorder.record_entry(pos_x, pos_y, pos_z)
-	travel_distance.value = travel_distance.value + np.sqrt(np.square(pos_x-last[0]) + np.square(pos_y-last[1]))
-	last_position.value = [pos_x, pos_y]
-	#clientLogger.info(travel_distance.value)
+        # determine if previously set robot index has changed
+        if robot_index.value is not None:
 
+            # if the value is invalid, reset the index below
+            if robot_index.value >= len(position.value.name) or\
+               position.value.name[robot_index.value] != 'robot':
+                robot_index.value = None
+
+        # robot index is invalid, find and set it
+        if robot_index.value is None:
+
+            # 'robot' is guaranteed by the NRP, if not found raise error
+            robot_index.value = position.value.name.index('robot')
+
+        # record the current robot position
+        recorder.record_entry(position.value.pose[robot_index.value].position.x,
+                              position.value.pose[robot_index.value].position.y,
+                              position.value.pose[robot_index.value].position.z)
