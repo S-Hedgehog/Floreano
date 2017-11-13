@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+#-*- coding: utf-8 -*-
 """
 This file contains the setup of the neuronal network running the Floreano experiment with neuronal image recognition
 """
@@ -12,7 +12,11 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-l = np.random.randint(2,size=(10,29))
+dna = np.random.randint(2,size=(10,29))
+receptors = []
+for r in range(1,19):
+    receptors.append(np.nonzero(dna[:,r])[0])
+
 """
 Structure of the dna array: 
 -Binary values
@@ -22,20 +26,19 @@ Structure of the dna array:
 -Last 10 bits: which brain neurons is the current neuron connected (1) to, self connectionbs allowed
 """
 
-def create_brain(dna = l):
+def create_brain():
     """
     Initializes PyNN with the neuronal network that has to be simulated
     """
 
     NEURONPARAMS = {'v_rest': -60.5,
-                    'cm': 0.525,
                     'tau_m': 4.0,
                     'tau_refrac': 2.0,
                     'tau_syn_E': 10.0,
                     'tau_syn_I': 10.0,
                     'e_rev_E': 0.0,
                     'e_rev_I': -75.0,
-                    'v_thresh': -57.0,
+                    'v_thresh': -60.4,
                     'v_reset': -60.5}
 
     SYNAPSE_PARAMS = {"weight": 1.0,
