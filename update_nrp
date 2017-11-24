@@ -1,0 +1,62 @@
+#!/bin/bash
+
+echo ===========================
+echo Temporarily Storing Changes
+echo ===========================
+
+cd $HBP
+mkdir tmp
+mkdir tmp/Models
+mkdir tmp/Experiments
+echo Creating Temporary Folder Complete
+
+cd $HBP/Models/brain_model/
+mv floreano.py $HBP/tmp/Models/
+mv floreano.pyc $HBP/tmp/Models/
+echo Moving Brain Complete
+
+cd $HBP/Models/
+mv floreano_box $HBP/tmp/Models/
+mv husky_model_64px $HBP/tmp/Models/
+echo Moving Models Complete
+
+cd $HBP/Experiments/
+mv floreano $HBP/tmp/Experiments/
+echo Moving Experiment Complete
+
+cd $HBP/Models/_rpmbuild/
+sed -i -e '/floreano_box/ d' models.txt
+cd $HBP/Experiments/_rpmbuild
+sed -i -e '/floreano/ d' folders.txt
+echo Editing _rpmbuild Complete	
+
+cd $HBP/user-scripts/
+./update_nrp update all
+
+echo
+echo ===========================
+echo Restoring Saved Changes
+echo ===========================
+
+cd $HBP/Models/_rpmbuild/
+sed -i -e '/floreano_box/ d' models.txt
+echo "floreano_box" >> models.txt
+cd $HBP/Experiments/_rpmbuild
+sed -i -e '/floreano/ d' folders.txt
+echo "floreano" >> folders.txt
+echo Restored _rpmbuild
+
+cd $HBP/tmp/Models/
+mv floreano.py $HBP/Models/brain_model/
+mv floreano.pyc $HBP/Models/brain_model/
+echo Restored Brain
+
+cd $HBP/tmp/Models/
+mv floreano_box $HBP/Models/
+echo Restored Models
+
+cd $HBP/tmp/Experiments/
+mv floreano $HBP/Experiments/
+echo Restored Experiment
+
+
