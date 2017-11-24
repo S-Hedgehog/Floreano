@@ -1,0 +1,35 @@
+#!/bin/bash
+
+
+echo
+echo =============================
+echo Deploying Floreano Experiment
+echo =============================
+
+
+mv -f Models/brain_model/floreano.py $HBP/Models/brain_model/
+echo Added Brain
+
+mv -f Models/floreano_box $HBP/Models/
+echo Inserted Models
+
+mv -f Experiments/floreano $HBP/Experiments/
+echo Set Up Experiment
+
+cd $HBP/Models/_rpmbuild/
+sed -i -e '/floreano_box/ d' $HBP/Models/_rpmbuild/models.txt
+echo "floreano_box" >> $HBP/Models/_rpmbuild/models.txt
+
+sed -i -e '/floreano/ d' $HBP/Experiments/_rpmbuildfolders.txt
+echo "floreano" >> $HBP/Experiments/_rpmbuildfolders.txt
+echo Updated _rpmbuild
+
+
+cd $HBP/Models
+./create-symlinks.sh
+cd $HBP/gzweb
+./deploy-gzbridge-nrp.sh
+
+
+cd $HBP/user-scripts
+./configure_nrp
