@@ -26,6 +26,7 @@ echo Moving Experiment Complete
 
 cd $HBP/Models/_rpmbuild/
 sed -i -e '/floreano_box/ d' models.txt
+sed -i -e '/husky_model_64px/ d' models.txt
 cd $HBP/Experiments/_rpmbuild
 sed -i -e '/floreano/ d' folders.txt
 echo Editing _rpmbuild Complete	
@@ -41,6 +42,7 @@ echo ===========================
 cd $HBP/Models/_rpmbuild/
 sed -i -e '/floreano_box/ d' models.txt
 echo "floreano_box" >> models.txt
+echo "husky_model_64px" >> models.txt
 cd $HBP/Experiments/_rpmbuild
 sed -i -e '/floreano/ d' folders.txt
 echo "floreano" >> folders.txt
@@ -53,6 +55,7 @@ echo Restored Brain
 
 cd $HBP/tmp/Models/
 mv floreano_box $HBP/Models/
+mv husky_model_64px $HBP/Models/
 echo Restored Models
 
 cd $HBP/tmp/Experiments/
