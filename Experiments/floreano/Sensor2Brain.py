@@ -1,6 +1,6 @@
 import numpy as np
 import cv2
-dna = np.random.randint(2,size=(10,29)) 
+
 @nrp.MapRobotSubscriber("camera", Topic('/husky/camera', sensor_msgs.msg.Image))  
 @nrp.MapVariable("ideal_wheel_speed", global_key="ideal_wheel_speed", initial_value=[0.0,0.0], scope=nrp.GLOBAL)
 @nrp.MapVariable("real_wheel_speed", global_key="real_wheel_speed", initial_value=[0.0,0.0], scope=nrp.GLOBAL)
@@ -32,10 +32,7 @@ def Sensor2Brain(t, ideal_wheel_speed, real_wheel_speed, camera, r1, r2, r3, r4,
         visual_receptors = [r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, r12, r13, r14, r15, r16]
         for i in range(len(visual_receptors)):
             visual_receptors[i].rate = im_bw.item((4*i))/6.0 + im_bw.item((4*i)+1)/3.0 + im_bw.item((4*i)+2)/3.0 + im_bw.item((4*i)+3)/6.0
-            clientLogger.info(visual_receptors[i].rate)
         for n in range(len(r17)):
             r17[n].rate = 100000*np.absolute(iws[0]-rws[0])
         for n in range(len(r18)):
             r18[n].rate = 100000*np.absolute(iws[1]-rws[1])
-        clientLogger.info(r17.rate)
-        clientLogger.info(r18.rate)

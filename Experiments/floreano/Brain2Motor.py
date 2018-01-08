@@ -29,6 +29,7 @@ def Brain2Motor(t, ideal_wheel_speed, left_wheel_forward_neuron, left_wheel_back
     left_wheel = 0.002 * (left_wheel_forward_neuron.rate - left_wheel_back_neuron.rate)
     right_wheel = 0.002 * (right_wheel_forward_neuron.rate - right_wheel_back_neuron.rate)
 
+    #clientLogger.info(left_wheel_forward_neuron.rate,left_wheel_back_neuron.rate, right_wheel_forward_neuron.rate, right_wheel_back_neuron.rate)
 
     ideal_wheel_speed.value = [left_wheel, right_wheel]
 
