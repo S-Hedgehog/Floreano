@@ -16,7 +16,6 @@ dna = np.random.randint(2,size=(10,29))
 receptors = []
 for r in range(1,19):
     receptors.append(np.nonzero(dna[:,r])[0])
-
 """
 Structure of the dna array: 
 -Binary values
@@ -38,7 +37,7 @@ def create_brain():
                     'tau_syn_I': 10.0,
                     'e_rev_E': 0.0,
                     'e_rev_I': -75.0,
-                    'v_thresh': -60.4,
+                    'v_thresh': -58.5,
                     'v_reset': -60.5}
 
     SYNAPSE_PARAMS = {"weight": 1.0,
@@ -62,8 +61,6 @@ def create_brain():
             r_type = 'inhibitory'
         for i in range(19,29):
             if n[i]==1:
-            	logger.info(str(18+row_counter)+' '+str(i-1)+' '+r_type)
-
                 sim.Projection(presynaptic_population=CIRCUIT[row_counter:1+row_counter], postsynaptic_population=CIRCUIT[i-19:i-18], connector=sim.OneToOneConnector(), synapse_type=SYN, receptor_type=r_type)
         
         row_counter+=1

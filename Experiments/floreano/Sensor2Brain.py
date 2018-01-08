@@ -1,6 +1,5 @@
 import numpy as np
 import cv2
-
 @nrp.MapRobotSubscriber("camera", Topic('/husky/camera', sensor_msgs.msg.Image))  
 @nrp.MapVariable("ideal_wheel_speed", global_key="ideal_wheel_speed", initial_value=[0.0,0.0], scope=nrp.GLOBAL)
 @nrp.MapVariable("real_wheel_speed", global_key="real_wheel_speed", initial_value=[0.0,0.0], scope=nrp.GLOBAL)
