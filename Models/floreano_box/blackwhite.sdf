@@ -27,29 +27,12 @@
       <static>1</static>
       <link name="link">
         <collision name="collision">
-          <pose frame="">0 0 0 0 -0 0</pose>
+          <pose>0 0 0.016 0 0 0</pose>
           <geometry>
-            <mesh>
-              <uri>model://floreano_box/meshes/emptyworldground.dae</uri>
-              <scale>1 1 1</scale>
-            </mesh>
+            <box>
+              <size>22.938 22.954 0.016</size>
+            </box>
           </geometry>
-          <surface>
-            <friction>
-              <ode>
-                <mu>100</mu>
-                <mu2>50</mu2>
-              </ode>
-              <torsional>
-                <ode/>
-              </torsional>
-            </friction>
-            <contact>
-              <ode/>
-            </contact>
-            <bounce/>
-          </surface>
-          <max_contacts>10</max_contacts>
         </collision>
         <visual name="visual">
           <cast_shadows>0</cast_shadows>
