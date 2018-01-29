@@ -5,7 +5,7 @@
     <name>Floreano Experiment </name>
     <thumbnail>floreano.png</thumbnail>
     <description>This experiment loads the Husky robot in an box with marked walls. With the marks on the wall the robot is able to navigate/drive around inside the box, without colliding with the wall.</description>
-    <timeout>999999</timeout>
+    <timeout>9999999</timeout>
     <configuration type="3d-settings" src="ExDTemplateHusky.3ds"/>
     <maturity>production</maturity>
     <environmentModel src="floreano_box/blackwhite.sdf">
