@@ -6,16 +6,6 @@ This file contains the setup of the neuronal network running the Floreano experi
 
 __author__ = 'Stefan Walke'
 
-from hbp_nrp_cle.brainsim import simulator as sim
-import numpy as np
-import logging
-
-logger = logging.getLogger(__name__)
-
-l = np.random.randint(2,size=(10,29))
-receptors = []
-for r in range(18):
-    receptors.append(np.nonzero(l[:,r])[0])
 """
 Structure of the dna array: 
 -Binary values
@@ -25,10 +15,29 @@ Structure of the dna array:
 -Last 10 bits: which brain neurons is the current neuron connected (1) to, self connectionbs allowed
 """
 
-def create_brain(dna = l):
-    """
-    Initializes PyNN with the neuronal network that has to be simulated
-    """
+from hbp_nrp_cle.brainsim import simulator as sim
+import numpy as np
+import logging
+
+logger = logging.getLogger(__name__)
+
+dna = np.array([[1,0,0,0,0,0,0,0,1,0,0,1,0,1,0,0,1,1,1,1,0,0,1,1,0,0,0,1,0],
+[0,1,0,1,0,0,0,0,0,1,0,0,1,1,1,1,0,1,1,1,1,0,1,0,1,0,0,1,0],
+[0,0,1,1,0,0,0,1,0,0,1,1,1,1,0,0,0,0,1,1,0,1,1,1,0,1,0,1,0],
+[0,0,1,1,0,1,0,1,1,1,1,1,1,0,1,0,0,0,1,0,0,0,0,0,0,1,0,0,0],
+[0,1,1,1,1,0,0,1,0,0,1,0,1,0,1,0,0,0,0,0,1,1,0,0,0,1,1,1,1],
+[0,0,1,1,0,1,1,0,1,0,0,0,1,1,1,0,0,1,0,1,0,0,1,1,1,0,0,1,1],
+[0,0,1,1,0,1,1,1,1,1,1,1,0,0,0,0,0,0,1,0,1,1,0,0,0,0,0,1,1],
+[0,0,1,1,1,1,1,0,0,0,0,0,0,1,0,0,1,1,0,0,1,1,0,0,0,1,1,0,0],
+[1,0,1,1,0,0,0,1,1,1,1,0,1,0,1,0,1,0,1,0,0,0,1,1,1,1,0,0,1],
+[1,1,0,0,0,0,0,1,1,0,1,0,1,0,1,1,0,1,1,0,1,1,0,1,1,0,0,1,0]])
+
+receptors = []
+for r in range(1,19):
+    receptors.append(np.nonzero(dna[:,r])[0])
+
+
+def create_brain():
 
     NEURONPARAMS = {'v_rest': -60.5,
                     'tau_m': 4.0,
@@ -54,15 +63,13 @@ def create_brain(dna = l):
 
     row_counter=0
     for row in dna:
-    	logger.info(row)
+        logger.info(row)
         n = np.array(row)
         r_type = 'excitatory'
         if n[0]==0:
             r_type = 'inhibitory'
         for i in range(19,29):
             if n[i]==1:
-            	logger.info(str(18+row_counter)+' '+str(i-1)+' '+r_type)
-
                 sim.Projection(presynaptic_population=CIRCUIT[row_counter:1+row_counter], postsynaptic_population=CIRCUIT[i-19:i-18], connector=sim.OneToOneConnector(), synapse_type=SYN, receptor_type=r_type)
         
         row_counter+=1
@@ -75,3 +82,4 @@ def create_brain(dna = l):
 
 
 circuit = create_brain()
+
